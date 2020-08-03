@@ -18,8 +18,8 @@ const sendMail = () => {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'purtiaggarwal1997@gmail.com',
-      pass: 'purtipurti@97'
+      user: 'your mail',
+      pass: 'your password'
     }
   });
   transporter.use('compile', hbs({
@@ -34,8 +34,8 @@ const sendMail = () => {
   }))
 
   var mailOptions = {
-    from: 'purtiaggarwal1997@gmail.com',
-    to: 'purti@aeologic.com',
+    from: 'sender mail',
+    to: 'receiver mail',
     subject: 'Sending Email using Node.js',
     template: 'index',
     
