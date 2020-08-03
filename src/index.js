@@ -1,8 +1,10 @@
 const express = require('express');
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
+const hbs = require('nodemailer-express-handlebars')
 const app = express();
-
+const path = require('path');
 const port = process.env.PORT || 5000;
+const viewPath =  path.resolve(__dirname, './views/')
 
 app.post('/send_mail', (req, res) => {
   res.status(200).send({
@@ -17,15 +19,26 @@ const sendMail = () => {
     service: 'gmail',
     auth: {
       user: 'purtiaggarwal1997@gmail.com',
-      pass: 'purti@2016'
+      pass: 'purtipurti@97'
     }
   });
+  transporter.use('compile', hbs({
+    viewEngine: {
+      extName: '.handlebars',
+      partialsDir: viewPath,
+      layoutsDir: viewPath,
+      defaultLayout: false,
+    },
+    viewPath: viewPath,
+    extName: '.handlebars',
+  }))
 
   var mailOptions = {
     from: 'purtiaggarwal1997@gmail.com',
     to: 'purti@aeologic.com',
     subject: 'Sending Email using Node.js',
-    text: 'That was easy!'
+    template: 'index',
+    
   };
 
   transporter.sendMail(mailOptions, function(error, info){
