@@ -4,8 +4,11 @@ const hbs = require('nodemailer-express-handlebars')
 const app = express();
 const path = require('path');
 const port = process.env.PORT || 5000;
-const viewPath =  path.resolve(__dirname, './views/')
+const Email = require('email-templates')
+const viewPath =  path.resolve(__dirname, './templates/views/')
+const partialsPath = path.resolve(__dirname, './templates/partials')
 
+app.use(express.static(path.join(__dirname, './public')))
 app.post('/send_mail', (req, res) => {
   res.status(200).send({
     status: "200",
@@ -18,27 +21,31 @@ const sendMail = () => {
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'your mail',
-      pass: 'your password'
+      user: 'purtiaggarwal1997@gmail.com',
+      pass: 'purtipurti@97'
     }
   });
   transporter.use('compile', hbs({
     viewEngine: {
       extName: '.handlebars',
-      partialsDir: viewPath,
+      // partialsDir: viewPath,
       layoutsDir: viewPath,
       defaultLayout: false,
+      partialsDir: partialsPath,
+      express
     },
     viewPath: viewPath,
     extName: '.handlebars',
   }))
 
   var mailOptions = {
-    from: 'sender mail',
-    to: 'receiver mail',
+    from: 'purtiaggarwal1997@gmail.com',
+    to: 'purti@aeologic.com',
     subject: 'Sending Email using Node.js',
     template: 'index',
-    
+    // attachments: [
+    //   { filename: 'abc.jpg', path: path.resolve(__dirname, './image/abc.jpg')}
+    // ]
   };
 
   transporter.sendMail(mailOptions, function(error, info){
